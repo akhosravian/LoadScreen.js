@@ -1120,11 +1120,24 @@ export function LoadScreen ( renderer, style ) {
 
 			for ( var k in oTA ) {
 
+				if ( tA[ k ].toCube ) {
+					if ( verbose ) console.time( 'Texture > ' + k + ' > EquirectangularToCubeGenerator creation time' );
+
+					let texture = oTA[ k ];
+					texture.minFilter = THREE.NearestFilter;
+					texture.magFilter = THREE.NearestFilter;
+					texture.encoding = THREE.LinearEncoding;
+					let cubemapGenerator = new THREE.EquirectangularToCubeGenerator( texture, tA[ k ].cubeResolution || 512 );
+					oTA[ k ] = cubemapGenerator.update(renderer);
+
+					if ( verbose ) console.timeEnd( 'Texture > ' + k + ' > EquirectangularToCubeGenerator creation time' );
+				}
+
 				if ( tA[ k ].toPMREM ) {
 
 					if ( verbose ) console.time( 'Texture > ' + k + ' > PMREM creation time' );
 
-					var pmremGen = new THREE.PMREMGenerator( oTA[ k ] );
+					var pmremGen = new THREE.PMREMGenerator( oTA[ k ] , tA[ k ].PMREMSamplesPerLevel );
 					pmremGen.update( renderer );
 
 					var pmremcubeuvpacker = new THREE.PMREMCubeUVPacker( pmremGen.cubeLods );
