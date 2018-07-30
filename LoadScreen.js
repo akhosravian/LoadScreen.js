@@ -49,6 +49,7 @@ export function LoadScreen ( renderer, style ) {
 
 	this.setSize = setSize;
 
+	style = style || {};
 	style = {
 		type: typeof style.type !== 'undefined' ? style.type : 'linear-horizontal',
 		size: style.size || '170px',
@@ -662,7 +663,7 @@ export function LoadScreen ( renderer, style ) {
 
 		if ( ext === 'cubehdr' )  {
 
-			var loader = getTextureLoader( ext );
+			var loader = d.loaderOverride || getTextureLoader( ext );
 
 			if ( typeof d.crossOrigin !== 'undefined' )
 
@@ -674,7 +675,7 @@ export function LoadScreen ( renderer, style ) {
 
 		else {
 
-			var loader = getTextureLoader( ext.toLowerCase() );
+			var loader = d.loaderOverride || getTextureLoader( ext.toLowerCase() );
 
 			if ( typeof d.crossOrigin !== 'undefined' )
 
@@ -692,7 +693,7 @@ export function LoadScreen ( renderer, style ) {
 			arr = splitUrl(d.path),
 			ext = arr[ arr.length - 1 ];
 
-		getMaterialLoader( ext.toLowerCase() ).load( 
+		(d.loaderOverride || getMaterialLoader( ext.toLowerCase() )).load( 
 			d.path, 
 			function ( m ) {
 
@@ -754,7 +755,7 @@ export function LoadScreen ( renderer, style ) {
 			arr = splitUrl(d.path),
 			ext = arr[ arr.length - 1 ];
 
-		getGeometryLoader( ext.toLowerCase() ).load( 
+		(d.loaderOverride || getGeometryLoader( ext.toLowerCase() )).load( 
 			d.path, 
 			function ( g ) {
 
@@ -886,7 +887,7 @@ export function LoadScreen ( renderer, style ) {
 			
 		} else {
 
-			var loader = getObjectLoader( ext.toLowerCase() );
+			var loader = d.loaderOverride || getObjectLoader( ext.toLowerCase() );
 
 			switch ( ext ) {
 
