@@ -1,4 +1,4 @@
-function LoadScreen ( renderer, style ) {
+export function LoadScreen ( renderer, style ) {
 
 	'use strict';
 
@@ -600,12 +600,12 @@ function LoadScreen ( renderer, style ) {
 
 		if ( typeof d.path === 'string' ) {
 
-			arr = d.path.split( '.' );
+			arr = splitUrl(d.path);
 			ext = arr[ arr.length - 1 ];
 
 		} else {
 
-			arr = d.path[ 0 ].split( '.' );
+			arr = splitUrl(d.path[0]);
 			ext = arr[ arr.length - 1 ].toLowerCase() === 'hdr' ? 'cubehdr' : 'cube';
 
 		}
@@ -689,7 +689,7 @@ function LoadScreen ( renderer, style ) {
 	function loadMaterial ( p ) {
 
 		var d = that.resources.materials[ p ],
-			arr = d.path.split( '.' ),
+			arr = splitUrl(d.path),
 			ext = arr[ arr.length - 1 ];
 
 		getMaterialLoader( ext.toLowerCase() ).load( 
@@ -715,7 +715,7 @@ function LoadScreen ( renderer, style ) {
 
 						for ( var k in o ) {
 
-							var ext = o.path.split( '.' );
+							var ext = splitUrl(o.path)
 							ext = ext[ ext.length - 1 ];
 
 							if ( o[ k ].setMaterials === p && ext === 'obj' )
@@ -751,7 +751,7 @@ function LoadScreen ( renderer, style ) {
 	function loadGeometry ( p ) {
 
 		var d = that.resources.geometries[ p ],
-			arr = d.path.split( '.' ),
+			arr = splitUrl(d.path),
 			ext = arr[ arr.length - 1 ];
 
 		getGeometryLoader( ext.toLowerCase() ).load( 
@@ -828,10 +828,14 @@ function LoadScreen ( renderer, style ) {
 
 	}
 
+	function splitUrl(url) {
+			return url.split(/\#|\?/)[0].split('.')
+	}
+
 	function loadObject ( p, materialCreator ) {
 
 		var d = that.resources.objects[ p ],
-			a = d.path.split( '.' ),
+			a = splitUrl(d.path),
 			l = a.length,
 			ext = a[ l - 2 ].toLowerCase() === 'assimp' ? 'assimpJSON' : a[ l - 1 ];
 			
@@ -1001,6 +1005,7 @@ function LoadScreen ( renderer, style ) {
 				if ( ! oLoaders.fbx ) oLoaders.fbx = new THREE.FBXLoader();
 				return oLoaders.fbx;
 			case 'gltf': 
+			case 'glb':
 				if ( ! oLoaders.gltf ) oLoaders.gltf = new THREE.GLTFLoader();
 				return oLoaders.gltf;
 			case 'js': 
@@ -1021,6 +1026,8 @@ function LoadScreen ( renderer, style ) {
 			case 'vrml': 
 				if ( ! oLoaders.vrml ) oLoaders.vrml = new THREE.VRMLLoader();
 				return oLoaders.vrml;
+			default:
+				console.log('No loaders for type ' + ext + '.')
 		}
 
 	}
@@ -1248,6 +1255,7 @@ function LoadScreen ( renderer, style ) {
 		if ( oA ) {
 
 			var assignPropsToMaterial = function ( k, m ) {
+				if (!m) return
 
 				for ( var p in oA[ k ] ) {
 
@@ -1320,7 +1328,7 @@ function LoadScreen ( renderer, style ) {
 				if ( oA[ k ].path && oA[ k ].fileSize ) {//object pending in output.objects
 
 					var p = oA[ k ].path,
-						a = p.split( '.' ),
+						a = splitUrl(p),
 						l = a.length;
 
 					var object;
@@ -1333,7 +1341,7 @@ function LoadScreen ( renderer, style ) {
 
 						object = oOA[ k ].scene;
 
-					} else if ( a[ l - 1 ] === 'gltf' ) {
+					} else if ( a[ l - 1 ] === 'gltf' || a[ l - 1 ] === 'glb' ) {
 
 						object = typeof oOA[ k ].scene !== 'undefined' ? oOA[ k ].scene : oOA[ k ].scenes[ 0 ];
 
