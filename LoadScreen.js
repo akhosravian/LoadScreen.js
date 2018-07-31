@@ -1577,7 +1577,7 @@ export function LoadScreen ( renderer, style ) {
 
 			if ( style.progressInfo ) progressBar.setAttribute( 'd', "M22 " + ( 102 - w2 ) + " 22 " + ( 98 + w2 ) + " " + ( 22 + 156 * tweens.progress.value ) + " " + ( 98 + w2 ) + " " + ( 22 + 156 * tweens.progress.value ) + " " + ( 102 - w2 ) ); 
 
-			if ( style.sizeInfo ) sizeInfo.textContent = ( tweens.progress.value * ( texSum + geoSum ) / 1024 ).toFixed( 2 ) + 'MB';
+			if ( style.sizeInfo ) sizeInfo.textContent = ( tweens.progress.value * ( fileSum + fontSum + texSum + matSum + geoSum + animSum + objSum ) / 1024 ).toFixed( 2 ) + 'MB';
 
 		};
 
@@ -1733,7 +1733,7 @@ export function LoadScreen ( renderer, style ) {
 
 			}
 
-			if ( style.sizeInfo ) sizeInfo.textContent = ( tweens.progress.value * ( texSum + geoSum ) / 1024 ).toFixed( 2 ) + 'MB';
+			if ( style.sizeInfo ) sizeInfo.textContent = ( tweens.progress.value * ( fileSum + fontSum + texSum + matSum + geoSum + animSum + objSum ) / 1024 ).toFixed( 2 ) + 'MB';
 
 		};
 
@@ -1873,7 +1873,7 @@ export function LoadScreen ( renderer, style ) {
 
 				}
 
-			if ( style.sizeInfo ) sizeInfo.textContent = ( tweens.progress.value * ( texSum + geoSum ) / 1024 ).toFixed( 2 ) + 'MB';
+			if ( style.sizeInfo ) sizeInfo.textContent = ( tweens.progress.value * ( fileSum + fontSum + texSum + matSum + geoSum + animSum + objSum ) / 1024 ).toFixed( 2 ) + 'MB';
 
 		};
 
@@ -2020,7 +2020,7 @@ export function LoadScreen ( renderer, style ) {
 
 			}
 
-			if ( style.sizeInfo ) sizeInfo.textContent = ( tweens.progress.value * ( texSum + geoSum ) / 1024 ).toFixed( 2 ) + 'MB';
+			if ( style.sizeInfo ) sizeInfo.textContent = ( tweens.progress.value * ( fileSum + fontSum + texSum + matSum + geoSum + animSum + objSum ) / 1024 ).toFixed( 2 ) + 'MB';
 
 		};
 
