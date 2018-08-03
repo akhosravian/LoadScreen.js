@@ -54,6 +54,7 @@ export function LoadScreen ( renderer, style ) {
 		type: typeof style.type !== 'undefined' ? style.type : 'linear-horizontal',
 		size: style.size || '170px',
 		background: typeof style.background !== 'undefined' ? style.background : '#333',
+		backgroundImage: style.backgroundImage,
 		progressContainerColor: style.progressContainerColor || '#000',
 		progressColor: style.progressColor || '#666',
 		weight: style.weight || '10',
@@ -298,8 +299,8 @@ export function LoadScreen ( renderer, style ) {
 
 					output.files[ k ] = {};
 
-					files[ k ] = { prog: 0, fileSize: t.fileSize };
-					fileSum += t.fileSize;
+					files[ k ] = { prog: 0, fileSize: f.fileSize };
+					fileSum += f.fileSize;
 					nFiles++;
 
 				}
@@ -543,7 +544,7 @@ export function LoadScreen ( renderer, style ) {
 
 				var pr = e.loaded / total;
 
-				geometries[ p ].prog = pr;
+				files[ p ].prog = pr;
 
 				if ( pr !== 1 ) //otherwise onLoad will be called anyway
 
@@ -1436,6 +1437,10 @@ export function LoadScreen ( renderer, style ) {
 			'background: ' + style.background + ';' +
 			'position: relative;'+
 			'overflow: hidden;';
+
+		if (style.backgroundImage) {
+			overlay.style.cssText += `background-image: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url("${style.backgroundImage}"); background-repeat: no-repeat; background-position: center center; background-size: cover;`
+		}
 
 		var unit = style.size.indexOf( '%' ) > - 1 ? '%' : 'px', 
 			half = parseInt( style.size ) / 2 + unit;
