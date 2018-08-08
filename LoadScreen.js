@@ -1439,7 +1439,7 @@ export function LoadScreen ( renderer, style ) {
 			'overflow: hidden;';
 
 		if (style.backgroundImage) {
-			overlay.style.cssText += `background-image: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url("${style.backgroundImage}"); background-repeat: no-repeat; background-position: center center; background-size: cover;`
+			overlay.style.cssText += `background-image: linear-gradient(rgba(0, 0, 0, .5), rgba(0, 0, 0, .5)), url("${style.backgroundImage}"); background-repeat: no-repeat; background-position: center center; background-size: contain;`
 		}
 
 		var unit = style.size.indexOf( '%' ) > - 1 ? '%' : 'px', 
