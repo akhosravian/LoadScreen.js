@@ -273,7 +273,6 @@ export function LoadScreen ( renderer, style ) {
 
 		if ( ! removed ) {
 
-			that.domElement.style.marginTop = '-' + height + 'px';
 			that.domElement.style.height = height + 'px';
 			that.domElement.style.width = width + 'px';
 
@@ -1435,7 +1434,9 @@ export function LoadScreen ( renderer, style ) {
 
 		overlay.style.cssText = ''+
 			'background: ' + style.background + ';' +
-			'position: relative;'+
+			'position: absolute;'+
+      'top: 0;' +
+      'left: 0;' +
 			'overflow: hidden;';
 
 		if (style.backgroundImage) {
