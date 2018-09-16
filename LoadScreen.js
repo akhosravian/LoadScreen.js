@@ -23,8 +23,6 @@ export function LoadScreen ( renderer, style ) {
 
 	var textInfo, sizeInfo;
 
-	var pmremGen, pmremcubeuvpacker;
-
 	var fLoader,
 		foLoaders = {},
 		tLoaders = {},
@@ -1120,15 +1118,19 @@ export function LoadScreen ( renderer, style ) {
 
 			for ( var k in oTA ) {
 
+        let disposeTexture = false
+        let disposePMRem = false
+        let texture, cubemapGenerator, pmremGen, pmremcubeuvpacker
 				if ( tA[ k ].toCube ) {
 					if ( verbose ) console.time( 'Texture > ' + k + ' > EquirectangularToCubeGenerator creation time' );
 
-					let texture = oTA[ k ];
+					texture = oTA[ k ];
 					texture.minFilter = THREE.NearestFilter;
 					texture.magFilter = THREE.NearestFilter;
 					texture.encoding = THREE.LinearEncoding;
-					let cubemapGenerator = new THREE.EquirectangularToCubeGenerator( texture, tA[ k ].cubeResolution || 512 );
+					cubemapGenerator = new THREE.EquirectangularToCubeGenerator( texture, tA[ k ].cubeResolution || 512 );
 					oTA[ k ] = cubemapGenerator.update(renderer);
+          disposeTexture = true
 
 					if ( verbose ) console.timeEnd( 'Texture > ' + k + ' > EquirectangularToCubeGenerator creation time' );
 				}
@@ -1140,13 +1142,24 @@ export function LoadScreen ( renderer, style ) {
 					var pmremGen = new THREE.PMREMGenerator( oTA[ k ] , tA[ k ].PMREMSamplesPerLevel );
 					pmremGen.update( renderer );
 
-					var pmremcubeuvpacker = new THREE.PMREMCubeUVPacker( pmremGen.cubeLods );
+					pmremcubeuvpacker = new THREE.PMREMCubeUVPacker( pmremGen.cubeLods );
 					pmremcubeuvpacker.update( renderer );
 					oTA[ k ] = pmremcubeuvpacker.CubeUVRenderTarget.texture;
+          disposePMRem = true
 
 					if ( verbose ) console.timeEnd( 'Texture > ' + k + ' > PMREM creation time' );
 
 				}
+
+        if (disposeTexture) {
+          texture.dispose()
+          cubemapGenerator.dispose()
+        }
+
+        if (disposePMRem) {
+          pmremGen.dispose()
+          pmremcubeuvpacker.dispose()
+        }
 
 				for ( var p in tA[ k ] ) 
 
