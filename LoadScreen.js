@@ -1139,7 +1139,7 @@ export function LoadScreen ( renderer, style ) {
 
 					if ( verbose ) console.time( 'Texture > ' + k + ' > PMREM creation time' );
 
-					var pmremGen = new THREE.PMREMGenerator( oTA[ k ] , tA[ k ].PMREMSamplesPerLevel );
+					pmremGen = new THREE.PMREMGenerator( oTA[ k ] , tA[ k ].PMREMSamplesPerLevel );
 					pmremGen.update( renderer );
 
 					pmremcubeuvpacker = new THREE.PMREMCubeUVPacker( pmremGen.cubeLods );
