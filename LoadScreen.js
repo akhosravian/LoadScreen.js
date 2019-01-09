@@ -1464,8 +1464,7 @@ export function LoadScreen ( renderer, style ) {
 			'top: 50%; left: 50%;'+
 			'margin-left: -' + half + ';'+
 			'text-align: center;'+
-			'position: relative;'+
-			'display: inline-block';
+			'position: relative;';
 
 		that.domElement = overlay;
 		that.infoContainer = infoContainer;
